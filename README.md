@@ -1,6 +1,8 @@
-# Async modules loader for webpack
+# ``async-module`` loader for webpack
 
 Based on https://github.com/webpack/bundle-loader with improvements of error handling
+
+``npm install async-module-loader``
 
 ## Usage
 
