@@ -1,37 +1,27 @@
-# bundle loader for webpack
+# Async modules loader for webpack
+
+Based on https://github.com/webpack/bundle-loader with improvements of error handling
 
 ## Usage
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
-``` javascript
-// The chunk is requested, when you require the bundle
-var waitForChunk = require("bundle!./file.js");
-
-// To wait until the chunk is available (and get the exports)
-//  you need to async wait for it.
-waitForChunk(function(file) {
-	// use file like is was required with
-	// var file = require("./file.js");
-});
-// wraps the require in a require.ensure block
-```
-
-The file is requested when you require the bundle loader. If you want it to request it lazy, use:
+``async-module`` uses ``lazy`` always mode from ``bundle-loader``, this means that chunk loading starts only after returned function is called.
 
 ``` javascript
-var load = require("bundle?lazy!./file.js");
-
-// The chunk is not requested until you call the load function
-load(function(file) {
-
+// async-module returns function which accepts 2 callback: for success and for fail
+// Exports of the requested module are passed into success callback as a first argument
+require('async-module!./file.js')(function onLoad(mod) {
+  mod.doSomething();
+}, function onError() {
+  // error happened
 });
 ```
 
 You may set name for bundle (`name` query parameter). See [documentation](https://github.com/webpack/loader-utils#interpolatename).
 
 ``` javascript
-require("bundle?lazy&name=my-chunk!./file.js");
+require('async-module?name=my-chunk!./file.js')(..., ...);
 ```
 
 ## License

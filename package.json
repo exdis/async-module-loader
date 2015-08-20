@@ -1,19 +1,21 @@
 {
-  "name": "bundle-loader",
-  "version": "0.5.4",
-  "author": "Tobias Koppers @sokra",
-  "description": "bundle loader module for webpack",
+  "name": "async-module-loader",
+  "version": "1.0.0",
+  "author": "Arthur Stolyar <nekr.fabula@gmail.com>",
+  "description": "Async modules (chunks) loader for webpack with built-in errors callback",
+  "main": "index.js",
   "dependencies": {
     "loader-utils": "0.2.x"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
+  "keywords": [
+    "webpack",
+    "async",
+    "module",
+    "chunk",
+    "loader",
+    "error",
+    "jsonp"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/webpack/bundle-loader.git"
-  }
+  "licenses": "MIT",
+  "repository": "NekR/async-module-loader"
 }
