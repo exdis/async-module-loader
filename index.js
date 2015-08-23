@@ -1,6 +1,6 @@
 /*
   MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Arthur Stolyar @nekrtemplar
+  Author Arthur Stolyar <https://github.com/NekR>
 
   Based on Tobias Koppers @sokra bundle-loader
   https://github.com/webpack/bundle-loader
