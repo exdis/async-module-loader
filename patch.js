@@ -19,6 +19,10 @@ function patch() {
     });
 
     onError(function() {
+      if (__webpack_require__.s) {
+        __webpack_require__.s[chunkId] = void 0;
+      }
+
       handler(true);
     });
   };
