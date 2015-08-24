@@ -37,6 +37,21 @@ module.exports.pitch = function(remainingRequest) {
     chunkName = ', ' + JSON.stringify(chunkName);
   }
 
+  var requset = loaderUtils.stringifyRequest(this, '!!' + remainingRequest);
+
+  if (query.autoName) {
+    var namePart = requset.lastIndexOf('!');
+    namePart = requset.slice(namePart + 1, requset.length - 1);
+    namePart = namePart.replace(/\.[^\.]+?$/, '')
+      .replace(/\./g, '').replace(/\//g, '.');
+
+    if (namePart[0] === '.') {
+      namePart = namePart.slice(1);
+    }
+
+    chunkName = ', ' + JSON.stringify(namePart);
+  }
+
   var result = [
     'require(' + loaderUtils.stringifyRequest(this, '!' + path.join(__dirname, 'patch.js')) + ')',
     'module.exports = function(callback, errback) {',
@@ -44,7 +59,7 @@ module.exports.pitch = function(remainingRequest) {
     '    if (error) {',
     '      errback();',
     '    } else {',
-    '      callback(require(' + loaderUtils.stringifyRequest(this, '!!' + remainingRequest) + '))',
+    '      callback(require(' + requset + '))',
     '    }',
     '  }' + chunkName + ');',
     '};',
