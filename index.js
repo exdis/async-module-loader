@@ -37,6 +37,7 @@ module.exports.pitch = function(remainingRequest) {
     chunkName = ', ' + JSON.stringify(chunkName);
   }
 
+  // var context = loaderContext.context || (loaderContext.options && loaderContext.options.context);
   var requset = loaderUtils.stringifyRequest(this, '!!' + remainingRequest);
 
   if (query.autoName) {
