@@ -27,32 +27,17 @@ module.exports.pitch = function(remainingRequest) {
   var query = loaderUtils.parseQuery(this.query);
   var chunkName = '';
 
-  var interpolateOptions = {
-    context: query.context || this.options.context,
-    regExp: query.regExp
-  };
-
   if (query.name) {
-    chunkName = loaderUtils.interpolateName(this, query.name, interpolateOptions);
+    var options = {
+      context: query.context || this.options.context,
+      regExp: query.regExp
+    };
+
+    chunkName = loaderUtils.interpolateName(this, query.name, options);
     chunkName = ', ' + JSON.stringify(chunkName);
   }
 
-  // var context = loaderContext.context || (loaderContext.options && loaderContext.options.context);
   var requset = loaderUtils.stringifyRequest(this, '!!' + remainingRequest);
-
-  if (!query.name && query.autoName) {
-    var namePart = requset.lastIndexOf('!');
-    namePart = requset.slice(namePart + 1, requset.length - 1);
-    namePart = namePart.replace(/\.[^\.]+?$/, '')
-      .replace(/\./g, '').replace(/\//g, '.');
-
-    if (namePart[0] === '.') {
-      namePart = namePart.slice(1);
-    }
-
-    chunkName = loaderUtils.interpolateName(this, chunkName, interpolateOptions);
-    chunkName = ', ' + JSON.stringify(namePart);
-  }
 
   var result = [
     'require(' + loaderUtils.stringifyRequest(this, '!' + path.join(__dirname, 'patch.js')) + ')',

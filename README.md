@@ -42,8 +42,7 @@ module.exports = {
 
 ### Query parameters
 
-* `name`: You may set name for bundle. See [documentation](https://github.com/webpack/loader-utils#interpolatename).
-* `autoName`: Generates `name` based on requested module name. Particularly useful for dev environments to visualize in human readable way which chunks are loaded.
+* `name`: You may set name for bundle. See [documentation](https://github.com/webpack/loader-utils#interpolatename)
 
 
 ``` javascript
