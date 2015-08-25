@@ -20,7 +20,31 @@ require('async-module!./file.js')(function onLoad(mod) {
 });
 ```
 
-You may set name for bundle (`name` query parameter). See [documentation](https://github.com/webpack/loader-utils#interpolatename).
+### More on errors
+By default `webpack` does not provides access to `installedChunks` object which stores loading callback for the chunks. If this object is not handled property, this may cause memory leaks and won't allow to _try_ to load module again since it will stuck in _pending_ state. To fix this issue, you need to include `AsyncModulePlugin` which will export `installedChunks` to the `async-module-loader`. This is how you can do it:
+
+```js
+// webpack.config.js
+
+var AsyncModulePlugin = require('async-module-loader/plugin');
+
+module.exports = {
+  // ...
+
+  plugins: [
+    // ... other plugins
+
+    new AsyncModulePlugin()
+  ]
+  // ...
+}
+```
+
+### Query parameters
+
+* `name`: You may set name for bundle. See [documentation](https://github.com/webpack/loader-utils#interpolatename).
+* `autoName`: Generates `name` based on requested module name. Particularly useful for dev environments to visualize in human readable way which chunks are loaded.
+
 
 ``` javascript
 require('async-module?name=my-chunk!./file.js')(..., ...);
