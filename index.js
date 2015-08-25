@@ -27,20 +27,20 @@ module.exports.pitch = function(remainingRequest) {
   var query = loaderUtils.parseQuery(this.query);
   var chunkName = '';
 
-  if (query.name) {
-    var options = {
-      context: query.context || this.options.context,
-      regExp: query.regExp
-    };
+  var interpolateOptions = {
+    context: query.context || this.options.context,
+    regExp: query.regExp
+  };
 
-    chunkName = loaderUtils.interpolateName(this, query.name, options);
+  if (query.name) {
+    chunkName = loaderUtils.interpolateName(this, query.name, interpolateOptions);
     chunkName = ', ' + JSON.stringify(chunkName);
   }
 
   // var context = loaderContext.context || (loaderContext.options && loaderContext.options.context);
   var requset = loaderUtils.stringifyRequest(this, '!!' + remainingRequest);
 
-  if (query.autoName) {
+  if (!query.name && query.autoName) {
     var namePart = requset.lastIndexOf('!');
     namePart = requset.slice(namePart + 1, requset.length - 1);
     namePart = namePart.replace(/\.[^\.]+?$/, '')
@@ -50,6 +50,7 @@ module.exports.pitch = function(remainingRequest) {
       namePart = namePart.slice(1);
     }
 
+    chunkName = loaderUtils.interpolateName(this, chunkName, interpolateOptions);
     chunkName = ', ' + JSON.stringify(namePart);
   }
 
