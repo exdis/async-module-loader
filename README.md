@@ -21,7 +21,7 @@ require('async-module!./file.js')(function onLoad(mod) {
 ```
 
 ### More on errors
-By default `webpack` does not provides access to `installedChunks` object which stores loading callback for the chunks. If this object is not handled property, this may cause memory leaks and won't allow to _try_ to load module again since it will stuck in _pending_ state (see https://github.com/webpack/webpack/pull/1380 for details). To fix this issue, you need to include `AsyncModulePlugin` which will export `installedChunks` to the `async-module-loader`. This is how you can do it:
+By default `webpack` does not provides access to `installedChunks` object which stores loading callback for the chunks. If this object is not handled property, this may cause memory leaks and won't allow to _try_ to load module again since it will stuck in _pending_ state (see webpack/webpack#1380 for details). To fix this issue, you need to include `AsyncModulePlugin` which will export `installedChunks` to the `async-module-loader`. This is how you can do it:
 
 ```js
 // webpack.config.js
