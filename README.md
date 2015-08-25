@@ -8,7 +8,7 @@ Based on https://github.com/webpack/bundle-loader with improvements of error han
 
 [Documentation: Using loaders](http://webpack.github.io/docs/using-loaders.html)
 
-``async-module`` uses ``lazy`` always mode from ``bundle-loader``, this means that chunk loading starts only after returned function is called.
+``async-module`` always uses ``lazy`` mode from ``bundle-loader``, this means that chunk loading starts only after returned function is called.
 
 ``` javascript
 // async-module returns function which accepts 2 callback: for success and for fail
