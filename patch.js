@@ -3,27 +3,43 @@ patch();
 function patch() {
   var ensure = __webpack_require__.e;
   var head = document.querySelector('head');
+  var chunks = __webpack_require__.s;
+  var failures;
 
   __webpack_require__.e = function(chunkId, callback) {
     var loaded = false;
 
     var handler = function(error) {
-      if (loaded) return;
-      loaded = true;
-
       callback(error);
     };
 
+    if (!chunks && failures && failures[chunkId]) {
+      handler(true);
+      return;
+    }
+
     ensure(chunkId, function() {
+      if (loaded) return;
+      loaded = true;
+
       handler();
     });
+
+    // This is |true| if chunk is already loaded and does not need onError call.
+    // This happens because in such case ensure() is performed in sync way
+    if (loaded) {
+      return;
+    }
 
     onError(function() {
       if (loaded) return;
       loaded = true;
 
-      if (__webpack_require__.s) {
-        __webpack_require__.s[chunkId] = void 0;
+      if (chunks) {
+        chunks[chunkId] = void 0;
+      } else {
+        failures || (failures = {});
+        failures[chunkId] = true;
       }
 
       handler(true);
@@ -34,8 +50,10 @@ function patch() {
     var script = head.lastChild;
 
     if (script.tagName !== 'SCRIPT') {
-      // throw new Error('Script is not a script');
-      console.warn('Script is not a script', script);
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('Script is not a script', script);
+      }
+
       return;
     }
 
