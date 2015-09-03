@@ -1,8 +1,8 @@
 patch();
 
 function patch() {
-  var ensure = __webpack_require__.e;
   var head = document.querySelector('head');
+  var ensure = __webpack_require__.e;
   var chunks = __webpack_require__.s;
   var failures;
 
@@ -10,7 +10,10 @@ function patch() {
     var loaded = false;
 
     var handler = function(error) {
+      if (!callback) return;
+
       callback(error);
+      callback = null;
     };
 
     if (!chunks && failures && failures[chunkId]) {
