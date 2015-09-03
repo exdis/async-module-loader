@@ -19,6 +19,9 @@ function patch() {
     });
 
     onError(function() {
+      if (loaded) return;
+      loaded = true;
+
       if (__webpack_require__.s) {
         __webpack_require__.s[chunkId] = void 0;
       }
