@@ -54,4 +54,4 @@ require('async-module?name=my-chunk!./file.js')(..., ...);
 
 ## License
 
-MIT (http://www.opensource.org/licenses/mit-license.php)
+MIT (http://www.opensource.org/licenses/mit-license)
