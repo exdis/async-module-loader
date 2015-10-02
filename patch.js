@@ -8,6 +8,7 @@ function patch() {
 
   __webpack_require__.e = function(chunkId, callback) {
     var loaded = false;
+    var immediate = true;
 
     var handler = function(error) {
       if (!callback) return;
@@ -25,7 +26,16 @@ function patch() {
       if (loaded) return;
       loaded = true;
 
-      handler();
+      if (immediate) {
+        // webpack fires callback immediately if chunk was already loaded
+        // IE also fires callback immediately if script was already
+        // in a cache (AppCache counts too)
+        setTimeout(function() {
+          handler();
+        });
+      } else {
+        handler();
+      }
     });
 
     // This is |true| if chunk is already loaded and does not need onError call.
@@ -33,6 +43,8 @@ function patch() {
     if (loaded) {
       return;
     }
+
+    immediate = false;
 
     onError(function() {
       if (loaded) return;
@@ -62,7 +74,7 @@ function patch() {
 
     script.onload = script.onerror = function() {
       script.onload = script.onerror = null;
-      callback();
+      setTimeout(callback, 0);
     };
   };
 };
