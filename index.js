@@ -43,7 +43,7 @@ module.exports.pitch = function(remainingRequest) {
     'require(' + loaderUtils.stringifyRequest(this, '!' + path.join(__dirname, 'patch.js')) + ')',
     'module.exports = function(callback, errback) {',
     '  require.ensure([], function(error) {',
-    '    if (error) {',
+    '    if (error && !callback) {',
     '      errback();',
     '    } else {',
     '      callback(require(' + requset + '))',
